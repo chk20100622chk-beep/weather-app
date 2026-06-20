@@ -1,5 +1,6 @@
 import { prisma } from '@/lib/prisma'
-import type { Forecast } from '@/app/generated/prisma/client'
+
+export const dynamic = 'force-dynamic'
 
 export default async function ForecastsPage() {
   const forecasts = await prisma.forecast.findMany({
@@ -7,7 +8,7 @@ export default async function ForecastsPage() {
       location: true
     },
     orderBy: { forecastDate: 'asc' }
-  }) as any
+  })
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-blue-100 font-sans dark:bg-gradient-to-b dark:from-gray-900 dark:to-gray-800">
@@ -36,7 +37,7 @@ export default async function ForecastsPage() {
                 </tr>
               </thead>
               <tbody>
-                {forecasts.map((forecast: Forecast) => (
+                {forecasts.map((forecast) => (
                   <tr key={forecast.id} className="border-b border-gray-100 dark:border-gray-700">
                     <td className="py-3 px-4 text-gray-800 dark:text-gray-200">
                       {forecast.forecastDate.toLocaleDateString('zh-CN')}

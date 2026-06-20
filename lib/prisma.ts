@@ -1,20 +1,15 @@
 import { PrismaClient } from '@/app/generated/prisma/client'
+import { PrismaPg } from '@prisma/adapter-pg'
 
-// 開發環境下避免 HMR 產生多個連線
 const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined
 }
 
-const createPrismaClient = () =>
+export const prisma =
+  globalForPrisma.prisma ??
   new PrismaClient({
-    datasourceUrl: process.env.DATABASE_URL || 'postgresql://postgres:password@localhost:5432/weather_app',
+    adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL! }),
     log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
-  }) as any
+  })
 
-const prisma = globalForPrisma.prisma ?? createPrismaClient()
-
-if (process.env.NODE_ENV !== 'production') {
-  globalForPrisma.prisma = prisma
-}
-
-export { prisma }
+if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma

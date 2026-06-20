@@ -1,6 +1,8 @@
 import { prisma } from '@/lib/prisma'
 import type { WeatherRecord, Location } from '@/app/generated/prisma/client'
 
+export const dynamic = 'force-dynamic'
+
 interface WeatherRecordDetailProps {
   params: { id: string }
 }

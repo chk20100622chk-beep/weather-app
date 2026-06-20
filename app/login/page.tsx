@@ -1,5 +1,7 @@
 import { prisma } from '@/lib/prisma'
 
+export const dynamic = 'force-dynamic'
+
 export default async function LoginPage() {
   // 简化版：创建一个示例用户（实际应该有登录表单）
   const user = await prisma.user.findFirst()

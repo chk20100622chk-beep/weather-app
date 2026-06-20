@@ -1,6 +1,8 @@
 import { prisma } from '@/lib/prisma'
 import type { WeatherRecord } from '@/app/generated/prisma/client'
 
+export const dynamic = 'force-dynamic'
+
 export default async function WeatherRecordsPage() {
   const weatherRecords = await prisma.weatherRecord.findMany({
     include: {
