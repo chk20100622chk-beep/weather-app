@@ -9,7 +9,7 @@ const createPrismaClient = () =>
   new PrismaClient({
     datasourceUrl: process.env.DATABASE_URL || 'postgresql://postgres:password@localhost:5432/weather_app',
     log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
-  })
+  }) as any
 
 const prisma = globalForPrisma.prisma ?? createPrismaClient()
 
