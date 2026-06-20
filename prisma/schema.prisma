@@ -1,0 +1,95 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String
+  password  String
+  role      Role     @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Location {
+  id        String          @id @default(cuid())
+  name      String
+  country   String?
+  latitude  Float?
+  longitude Float?
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+  forecasts Forecast[]
+  records   WeatherRecord[]
+
+  @@unique([name, country])
+}
+
+model WeatherRecord {
+  id            String           @id @default(cuid())
+  locationId    String
+  date          DateTime
+  temperature   Float
+  minTemp       Float
+  maxTemp       Float
+  humidity      Int
+  precipitation Float            @default(0)
+  windSpeed     Float
+  windDirection WindDirection
+  pressure      Int?
+  uvIndex       Int?
+  condition     WeatherCondition
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+  location      Location         @relation(fields: [locationId], references: [id], onDelete: Cascade)
+
+  @@unique([locationId, date])
+}
+
+model Forecast {
+  id                       String           @id @default(cuid())
+  locationId               String
+  forecastDate             DateTime
+  minTemp                  Float
+  maxTemp                  Float
+  condition                WeatherCondition
+  precipitationProbability Int
+  createdAt                DateTime         @default(now())
+  updatedAt                DateTime         @updatedAt
+  location                 Location         @relation(fields: [locationId], references: [id], onDelete: Cascade)
+
+  @@unique([locationId, forecastDate])
+}
+
+enum WeatherCondition {
+  CLEAR
+  PARTLY_CLOUDY
+  CLOUDY
+  RAIN
+  HEAVY_RAIN
+  SNOW
+  FOG
+  THUNDERSTORM
+}
+
+enum WindDirection {
+  N
+  NE
+  E
+  SE
+  S
+  SW
+  W
+  NW
+}
+
+enum Role {
+  USER
+  ADMIN
+}
