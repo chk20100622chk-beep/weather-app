@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/prisma'
+import { formatCondition } from '@/lib/weather-format'
 import type { Location, WeatherRecord, Forecast } from '@/app/generated/prisma/client'
 
 export const dynamic = 'force-dynamic'
@@ -81,7 +82,7 @@ export default async function LocationDetailPage({ params }: LocationPageProps) 
                         溫度：{record.temperature}°C
                       </p>
                       <p className="text-gray-600 dark:text-gray-400">
-                        天氣：{record.condition}
+                        天氣：{formatCondition(record.condition)}
                       </p>
                     </div>
                   ))}
@@ -105,7 +106,7 @@ export default async function LocationDetailPage({ params }: LocationPageProps) 
                       溫度：{forecast.minTemp}-{forecast.maxTemp}°C
                     </p>
                     <p className="text-gray-600 dark:text-gray-400">
-                      天氣：{forecast.condition}
+                      天氣：{formatCondition(forecast.condition)}
                     </p>
                     <p className="text-gray-600 dark:text-gray-400">
                       降水概率：{forecast.precipitationProbability}%

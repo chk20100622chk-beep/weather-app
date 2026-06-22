@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/prisma'
+import { formatCondition } from '@/lib/weather-format'
 import type { Location, Forecast } from '@/app/generated/prisma/client'
 
 export const dynamic = 'force-dynamic'
@@ -60,7 +61,7 @@ export default async function ForecastDetailPage({ params }: ForecastDetailProps
                 </p>
                 <p className="text-gray-600 dark:text-gray-400">
                   <span className="font-medium">天氣狀況：</span>
-                  {forecast.condition}
+                  {formatCondition(forecast.condition)}
                 </p>
                 <p className="text-gray-600 dark:text-gray-400">
                   <span className="font-medium">降水概率：</span>
