@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/prisma'
+import { formatCondition } from '@/lib/weather-format'
 import type { WeatherRecord } from '@/app/generated/prisma/client'
 
 export const dynamic = 'force-dynamic'
@@ -60,7 +61,7 @@ export default async function WeatherRecordsPage() {
                       {record.humidity}%
                     </td>
                     <td className="py-3 px-4 text-gray-600 dark:text-gray-400">
-                      {record.condition}
+                      {formatCondition(record.condition)}
                     </td>
                     <td className="py-3 px-4">
                       <button className="text-blue-600 hover:text-blue-800 mr-3">編輯</button>
