@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/prisma'
+import { formatCondition, formatWindDirection } from '@/lib/weather-format'
 import type { WeatherRecord, Location } from '@/app/generated/prisma/client'
 
 export const dynamic = 'force-dynamic'
@@ -76,7 +77,7 @@ export default async function WeatherRecordDetailPage({ params }: WeatherRecordD
                 </p>
                 <p className="text-gray-600 dark:text-gray-400">
                   <span className="font-medium">風向：</span>
-                  {weatherRecord.windDirection}
+                  {formatWindDirection(weatherRecord.windDirection)}
                 </p>
                 <p className="text-gray-600 dark:text-gray-400">
                   <span className="font-medium">氣壓：</span>
@@ -88,7 +89,7 @@ export default async function WeatherRecordDetailPage({ params }: WeatherRecordD
                 </p>
                 <p className="text-gray-600 dark:text-gray-400">
                   <span className="font-medium">天氣狀況：</span>
-                  {weatherRecord.condition}
+                  {formatCondition(weatherRecord.condition)}
                 </p>
               </div>
             </div>
